@@ -1,4 +1,14 @@
-// GCD (Greatest Common Divisor)
+// check for natural numbers (Integers > 0)
+function isStrictNaturalNumber(val) {
+    if (val === undefined || val === null) return false;
+
+    const str = String(val).trim();
+    if (!/^\d+$/.test(str)) return false;
+
+    const num = Number(str);
+    return num > 0 && Number.isInteger(num);
+}
+
 function getGCD(a, b) {
     while (b !== 0) {
         let temp = b;
@@ -7,28 +17,18 @@ function getGCD(a, b) {
     }
     return a;
 }
+
 function getLCM(a, b) {
-    return (a * b) / getGCD(a, b);
+    return (a / getGCD(a, b)) * b;
 }
 
-function isNaturalNumber(val) {
-    if (val === undefined || val === null || val.trim() === '') return false;
-    const num = Number(val);
-    return Number.isInteger(num) && num > 0;
-}
-
-export default function handler(req, res) {
-
-    if (req.method !== 'GET') {
-        res.setHeader('Content-Type', 'text/plain');
-        return res.status(405).send('Method Not Allowed');
-    }
-
+app.get('/app/pranto_example_com', (req, res) => {
     const { x, y } = req.query;
-    res.setHeader('Content-Type', 'text/plain');
 
-    if (!isNaturalNumber(x) || !isNaturalNumber(y)) {
-        return res.status(200).send('NaN');
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+
+    if (!isStrictNaturalNumber(x) || !isStrictNaturalNumber(y)) {
+        return res.status(200).end('NaN');
     }
 
     const numX = parseInt(x, 10);
@@ -36,5 +36,5 @@ export default function handler(req, res) {
 
     const result = getLCM(numX, numY);
 
-    return res.status(200).send(String(result));
-}
+    return res.status(200).end(String(result));
+});
