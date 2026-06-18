@@ -1,4 +1,3 @@
-
 function getGCD(a, b) {
     while (b !== 0) {
         let temp = b;
@@ -22,12 +21,12 @@ function isStrictNaturalNumber(val) {
 
 export default function handler(req, res) {
     const { x, y } = req.query;
-
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    res.setHeader('Cache-Control', 'no-store');
+    res.setHeader('Cache-Control', 'no-store, max-age=0');
 
     if (!isStrictNaturalNumber(x) || !isStrictNaturalNumber(y)) {
         res.statusCode = 200;
+
         return res.end('NaN');
     }
 
